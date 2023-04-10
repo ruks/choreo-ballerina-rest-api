@@ -1,5 +1,6 @@
 import ballerina/http;
 import ballerina/io;
+import ballerina/config;
 
 type Album readonly & record {|
     string title;
@@ -11,11 +12,14 @@ table<Album> key(title) albums = table [
     {title: "Jeru", artist: "Gerry Mulligan"}
 ];
 
+configurable string serviceName = config:getAsString("service.name", "InitialName");
+
 service / on new http:Listener(9090) {
 
     resource function get albums() returns json|error {
-        json resourcesJSON = check io:fileReadJson("resources.json");
-        return resourcesJSON;
+        http:Response response = new;
+        response.setTextPayload("Hello, " + serviceName + "!");
+        _ = caller.respond(response);
     }
 
     resource function post albums(@http:Payload Album album) returns Album {
