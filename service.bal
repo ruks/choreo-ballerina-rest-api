@@ -12,7 +12,7 @@ table<Album> key(title) albums = table [
     {title: "Jeru", artist: "Gerry Mulligan"}
 ];
 
-configurable string serviceName = config:getAsString("service.name", "InitialName");
+configurable string serviceName = ?;
 
 service / on new http:Listener(9090) {
 
