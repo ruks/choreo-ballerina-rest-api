@@ -1,27 +1,12 @@
 import ballerina/http;
-import ballerina/io;
-import ballerina/config;
 
-type Album readonly & record {|
-    string title;
-    string artist;
-|};
-
-table<Album> key(title) albums = table [
-    {title: "Blue Train", artist: "John Coltrane"},
-    {title: "Jeru", artist: "Gerry Mulligan"}
-];
-
+// Define a configuration object with a default value
 configurable string serviceName = ?;
 
-service / on new http:Listener(9090) {
-
-    resource function get albums() returns json|error {
-        return serviceName;
-    }
-
-    resource function post albums(@http:Payload Album album) returns Album {
-        albums.add(album);
-        return album;
+// Define a simple HTTP service
+service /helloWorld on new http:Listener(9090) {
+    resource function post greeting() returns string {
+        string message = string `Hello ${serviceName}!`;
+        return message;
     }
 }
