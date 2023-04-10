@@ -17,9 +17,7 @@ configurable string serviceName = ?;
 service / on new http:Listener(9090) {
 
     resource function get albums() returns json|error {
-        http:Response response = new;
-        response.setTextPayload("Hello, " + serviceName + "!");
-        _ = caller.respond(response);
+        return serviceName;
     }
 
     resource function post albums(@http:Payload Album album) returns Album {
